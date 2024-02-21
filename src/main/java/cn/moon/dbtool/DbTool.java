@@ -2,17 +2,15 @@ package cn.moon.dbtool;
 
 
 import cn.moon.dbtool.dbutil.MyBeanProcessor;
+import cn.moon.lang.web.Page;
+import cn.moon.lang.web.Pageable;
 import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
+
 
 
 public class DbTool {
@@ -153,7 +151,9 @@ public class DbTool {
         LinkedHashMap<K, V> dict = new LinkedHashMap<>();
 
         for (Map<String, Object> row : list) {
-            Assert.state(row.size() >= 2, "result size error");
+            if(row.size() < 2){
+                throw new IllegalStateException("result size error");
+            }
             Iterator<String> ite = row.keySet().iterator();
 
             String k1 = ite.next();
@@ -209,40 +209,16 @@ public class DbTool {
         Long total = null;
         total = findLong(countSql, params);
         if (total == null)
-            return new PageImpl<>(Collections.emptyList());
+            return new Page<>(Collections.emptyList(),pageable,0);
 
 
-        Sort sort = pageable.getSort();
-        if (sort != null && sort.isSorted()) {
-            StringBuilder sb = new StringBuilder();
-            boolean hasOrderBy = hasOrderBy(sql);
-            if (!hasOrderBy) {
-                sb.append(" order by ");
-            } else {
-                sb.append(",");
-            }
-
-            for (Sort.Order order : sort) {
-                String property = order.getProperty();
 
 
-                property = Helpers.underline(property);
-
-                sb.append(property);
-                sb.append(" ");
-                sb.append(order.getDirection());
-                sb.append(",");
-            }
-            sb.deleteCharAt(sb.length() - 1);
-
-            sql += sb.toString();
-        }
-
-        String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNumber(), pageable.getPageSize());
+        String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<T> list = findAll(cls, pageSql, params);
 
-        return new PageImpl<>(list, pageable, total);
+        return new Page<>(list, pageable, total);
     }
 
 
@@ -250,28 +226,17 @@ public class DbTool {
         params = checkParam(params);
         Long total = findLong(SqlPageableTool.getCountSql(sql), params);
 
-        Sort sort = pageable.getSort();
-        if (sort.isSorted() && !hasOrderBy(sql)) {
-            Iterator<Sort.Order> iterator = sort.iterator();
 
-            sql += " order by ";
-            while (iterator.hasNext()) {
-                Sort.Order order = iterator.next();
 
-                sql += "t.`" + order.getProperty() + "` " + order.getDirection();
-
-            }
-        }
-
-        String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNumber(), pageable.getPageSize());
+        String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<Map<String, Object>> list = this.findAll(pageSql, params);
 
-        PageImpl<Map<String, Object>> page = new PageImpl<>(list, pageable, total);
+        Page<Map<String, Object>> page = new Page<>(list, pageable, total);
         if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
             List<Map<String, Object>> content = Helpers.camel(page.getContent());
 
-            page = new PageImpl<>(content, pageable, page.getTotalElements());
+            page = new Page<>(content, pageable, page.getTotalElements());
         }
         return page;
     }
@@ -323,11 +288,11 @@ public class DbTool {
         params = checkParam(params);
         Long total = findLong(SqlPageableTool.getCountSql(sql), params);
 
-        String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNumber(), pageable.getPageSize());
+        String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<T> list = this.findColumnList(pageSql, params);
 
-        return new PageImpl<>(list, pageable, total);
+        return new Page<>(list, pageable, total);
     }
 
 
