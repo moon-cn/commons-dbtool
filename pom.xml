@@ -8,7 +8,7 @@
 
     <groupId>io.github.moon-cn</groupId>
     <artifactId>commons-dbtool</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <description>The Moon Commons-DbTool package is a set of
         Java utility classes for easing JDBC development.
         Support Spring data commons, such as pageable, annotation

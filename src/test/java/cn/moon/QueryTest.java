@@ -1,4 +1,4 @@
-package io.github.moon1949;
+package cn.moon;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
