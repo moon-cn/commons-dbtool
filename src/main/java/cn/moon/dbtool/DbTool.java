@@ -12,7 +12,6 @@ import java.sql.*;
 import java.util.*;
 
 
-
 public class DbTool {
 
     private QueryRunner runner;
@@ -151,7 +150,7 @@ public class DbTool {
         LinkedHashMap<K, V> dict = new LinkedHashMap<>();
 
         for (Map<String, Object> row : list) {
-            if(row.size() < 2){
+            if (row.size() < 2) {
                 throw new IllegalStateException("result size error");
             }
             Iterator<String> ite = row.keySet().iterator();
@@ -195,6 +194,11 @@ public class DbTool {
         params = checkParam(params);
         MapHandler rsh = new MapHandler();
         Map<String, Object> map = this.query(sql, rsh, params);
+
+        if (map == null) {
+            return null;
+        }
+
         if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
             map = Helpers.camel(map);
         }
@@ -209,9 +213,7 @@ public class DbTool {
         Long total = null;
         total = findLong(countSql, params);
         if (total == null)
-            return new Page<>(Collections.emptyList(),pageable,0);
-
-
+            return new Page<>(Collections.emptyList(), pageable, 0);
 
 
         String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
@@ -227,7 +229,6 @@ public class DbTool {
         Long total = findLong(SqlPageableTool.getCountSql(sql), params);
 
 
-
         String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<Map<String, Object>> list = this.findAll(pageSql, params);
@@ -240,7 +241,6 @@ public class DbTool {
         }
         return page;
     }
-
 
 
     /**
