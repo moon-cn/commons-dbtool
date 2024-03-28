@@ -2,6 +2,7 @@ package cn.moon.dbtool;
 
 
 import cn.moon.dbtool.dbutil.MyBeanProcessor;
+import cn.moon.dbtool.meta.Column;
 import cn.moon.lang.web.Page;
 import cn.moon.lang.web.Pageable;
 import org.apache.commons.dbutils.*;
@@ -442,7 +443,41 @@ public class DbTool {
 
     }
 
+    // ------------------------------------元数据部分------------------------------
 
+    public  List<Column> getColumns( String sql) throws SQLException {
+        List<Column> columns = new ArrayList<>();
+        try (Connection conn = this.getRunner().getDataSource().getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement(sql)) {
+                ResultSetMetaData metaData = st.getMetaData();
+
+                int columnCount = metaData.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    Column column = new Column();
+
+                    column.setLabel(metaData.getColumnLabel(i));
+                    column.setName(metaData.getColumnName(i));
+                    column.setType(metaData.getColumnType(i));
+                    column.setTypeName(metaData.getColumnTypeName(i));
+                    column.setClassName(metaData.getColumnClassName(i));
+
+                    columns.add(column);
+                }
+
+            }
+        }
+
+
+        return columns;
+    }
+
+
+    /***
+     *
+     * @param sql
+     * @return
+     */
     private boolean hasOrderBy(String sql) {
         return sql.toLowerCase().contains("order by");
     }
