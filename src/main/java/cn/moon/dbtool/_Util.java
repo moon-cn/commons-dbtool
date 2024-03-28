@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Helpers {
+public class _Util {
 
     public static List<Map<String, Object>> camel(List<Map<String,Object>> list) {
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map = list.get(i);
-            list.set(i, Helpers.camel(map));
+            list.set(i, _Util.camel(map));
         }
         return list;
     }
@@ -24,7 +24,7 @@ public class Helpers {
             String key = e.getKey();
             Object value = e.getValue();
             if(key.contains("_")){
-                key = Helpers.camel(key);
+                key = _Util.camel(key);
             }
 
             newMap.put(key,value);

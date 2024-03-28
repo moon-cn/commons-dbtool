@@ -1,7 +1,7 @@
 package cn.moon;
 
 import cn.moon.dbtool.DbTool;
-import cn.moon.dbtool.meta.Column;
+import cn.moon.dbtool.Column;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

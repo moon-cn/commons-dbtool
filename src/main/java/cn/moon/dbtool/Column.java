@@ -1,4 +1,4 @@
-package cn.moon.dbtool.meta;
+package cn.moon.dbtool;
 
 
 import lombok.Getter;

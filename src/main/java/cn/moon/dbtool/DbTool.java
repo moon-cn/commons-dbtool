@@ -2,7 +2,6 @@ package cn.moon.dbtool;
 
 
 import cn.moon.dbtool.dbutil.MyBeanProcessor;
-import cn.moon.dbtool.meta.Column;
 import cn.moon.lang.web.Page;
 import cn.moon.lang.web.Pageable;
 import org.apache.commons.dbutils.*;
@@ -52,7 +51,7 @@ public class DbTool {
     }
 
     public int createTable(Class<?> cls) {
-        return this.createTable(cls, Helpers.underline(cls.getSimpleName()));
+        return this.createTable(cls, _Util.underline(cls.getSimpleName()));
     }
 
     public int createTable(Class<?> cls, String tableName) {
@@ -122,7 +121,7 @@ public class DbTool {
         if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
             for (K k : result.keySet()) {
                 Map<String, Object> value = result.get(k);
-                Map<String, Object> cameled = Helpers.camel(value);
+                Map<String, Object> cameled = _Util.camel(value);
                 result.put(k, cameled);
             }
         }
@@ -185,7 +184,7 @@ public class DbTool {
             return Collections.emptyList();
         }
         if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
-            list = Helpers.camel(list);
+            list = _Util.camel(list);
         }
         return list;
     }
@@ -201,7 +200,7 @@ public class DbTool {
         }
 
         if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
-            map = Helpers.camel(map);
+            map = _Util.camel(map);
         }
         return map;
     }
@@ -236,7 +235,7 @@ public class DbTool {
 
         Page<Map<String, Object>> page = new Page<>(list, pageable, total);
         if (cfg.getNamingStrategy() == Config.NAMING_STRATEGY_IMPROVED) {
-            List<Map<String, Object>> content = Helpers.camel(page.getContent());
+            List<Map<String, Object>> content = _Util.camel(page.getContent());
 
             page = new Page<>(content, pageable, page.getTotalElements());
         }
@@ -420,7 +419,7 @@ public class DbTool {
             if (key.equals("id")) {
                 continue;
             }
-            sb.append(Helpers.underline(key)).append("=?,");
+            sb.append(_Util.underline(key)).append("=?,");
             params.add(data.get(key));
         }
         sb.deleteCharAt(sb.length() - 1);

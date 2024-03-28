@@ -1,7 +1,7 @@
 package cn.moon.dbtool.converter;
 
 import cn.moon.dbtool.Converter;
-import cn.moon.dbtool.Helpers;
+import cn.moon.dbtool._Util;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class StringToListConverter implements Converter {
     @Override
     public boolean match(Class<?> dbData, PropertyDescriptor target) {
         boolean isList = List.class.isAssignableFrom(target.getPropertyType());
-        return isList && dbData == String.class && Helpers.getFirstGeneric(target) == String.class;
+        return isList && dbData == String.class && _Util.getFirstGeneric(target) == String.class;
     }
 
     @Override
