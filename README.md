@@ -13,10 +13,10 @@ You can pull it from the central Maven repositories:
  <dependency>
     <groupId>io.github.moon-cn</groupId>
     <artifactId>commons-dbtool</artifactId>
-    <version>1.0.0</version>
+    <version>1.x.x</version>
 </dependency>
 ```
-
+latest version: https://mvnrepository.com/artifact/io.github.moon-cn/commons-dbtool
 #### How to Use
 
 
