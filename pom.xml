@@ -28,7 +28,7 @@
     </developers>
     <scm>
         <connection>scm:git:git://github.com/moon-cn/commons-dbtool.git</connection>
-        <developerConnection>scm:git@github.com:moon1949/commons-dbtool.git</developerConnection>
+        <developerConnection>scm:git@github.com:moon-cn/commons-dbtool.git</developerConnection>
         <url>https://github.com/moon-cn/commons-dbtool/tree/master</url>
     </scm>
 
@@ -36,7 +36,6 @@
         <compile.version>8</compile.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-        <gpg.passphrase>19491001</gpg.passphrase>
     </properties>
 
 
