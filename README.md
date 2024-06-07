@@ -1,15 +1,9 @@
-# commons-dbtool
+# 数据库工具类
 
-#### Intro
-The Moon Commons-DbTool package is a set of
-Java utility classes for easing JDBC development.
-Support Spring data pageable
+#### 介绍
+依赖 https://github.com/apache/commons-dbutils
 
-depends on https://github.com/apache/commons-dbutils
-
-#### Where can I get the latest release?
-查看 https://central.sonatype.com/artifact/io.github.moon-cn/commons-dbtool
-You can pull it from the central Maven repositories:
+#### 安装
 ```
  <dependency>
     <groupId>io.github.moon-cn</groupId>
@@ -17,10 +11,9 @@ You can pull it from the central Maven repositories:
     <version>1.x.x</version>
 </dependency>
 ```
-latest version: https://mvnrepository.com/artifact/io.github.moon-cn/commons-dbtool
-#### How to Use
+最新版查看地址: https://mvnrepository.com/artifact/io.github.moon-cn/commons-dbtool
 
-
+#### 使用
 ```
   DbTool db = new DbTool(datasource);
   List<User> userList = db.findAll(User.clss, sql, params);
