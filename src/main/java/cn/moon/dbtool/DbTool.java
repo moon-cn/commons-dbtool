@@ -215,7 +215,7 @@ public class DbTool {
         if (total == null)
             return new Page<>(Collections.emptyList(), pageable, 0);
 
-
+        pageable.convertToZeroIndexed();
         String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<T> list = findAll(cls, pageSql, params);
@@ -228,7 +228,7 @@ public class DbTool {
         params = checkParam(params);
         Long total = findLong(SqlPageableTool.getCountSql(sql), params);
 
-
+        pageable.convertToZeroIndexed();
         String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<Map<String, Object>> list = this.findAll(pageSql, params);
@@ -288,6 +288,7 @@ public class DbTool {
         params = checkParam(params);
         Long total = findLong(SqlPageableTool.getCountSql(sql), params);
 
+        pageable.convertToZeroIndexed();
         String pageSql = SqlPageableTool.getPageSql(cfg.getDbType(), sql, pageable.getPageNo(), pageable.getPageSize());
 
         List<T> list = this.findColumnList(pageSql, params);
